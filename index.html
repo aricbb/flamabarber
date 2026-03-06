@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>FLAME BARBER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI', sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f2027;
+color:white;
+transition:background 0.2s;
+}
+
+/* NAV */
+nav{
+display:flex;
+justify-content:center;
+gap:30px;
+background:linear-gradient(90deg,#b30000,#001f3f);
+padding:20px;
+position:sticky;
+top:0;
+z-index:1000;
+animation:navEntrada 1s ease;
+}
+
+@keyframes navEntrada{
+from{transform:translateY(-100%);}
+to{transform:translateY(0);}
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#ff4d4d;
+filter:drop-shadow(0 0 10px red);
+}
+
+/* HERO */
+.inicio{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70') center/cover no-repeat;
+position:relative;
+}
+
+#particles-js{
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+}
+
+.inicio::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+z-index:1;
+}
+
+.inicio h2,
+.inicio p,
+.inicio button{
+position:relative;
+z-index:2;
+}
+
+.inicio h2{
+font-size:45px;
+margin-bottom:15px;
+color:white;
+text-shadow:
+0 0 5px #ff4d4d,
+0 0 10px #ff4d4d,
+0 0 20px red,
+0 0 40px red;
+animation:neonGlow 1.8s infinite alternate;
+}
+
+@keyframes neonGlow{
+from{text-shadow:0 0 5px #ff4d4d,0 0 15px red;}
+to{text-shadow:0 0 20px #ff4d4d,0 0 40px red;}
+}
+
+.inicio p{
+font-size:20px;
+margin-bottom:30px;
+}
+
+button{
+background:linear-gradient(90deg,#b30000,#001f3f);
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:25px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px red;
+}
+
+section{
+padding:80px 20px;
+text-align:center;
+}
+
+.container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border-radius:15px;
+width:260px;
+overflow:hidden;
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+opacity:0;
+transform:translateY(60px);
+transition:0.6s;
+}
+
+.card.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.05);
+box-shadow:0 0 30px red;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.card h3{
+color:#ff4d4d;
+}
+
+.descripcion{
+font-size:14px;
+margin:8px 0;
+color:#ddd;
+}
+
+/* REDES */
+.redes{
+background:linear-gradient(90deg,#b30000,#001f3f);
+}
+
+.social{
+text-decoration:none;
+color:white;
+padding:12px 20px;
+border-radius:30px;
+background:rgba(255,255,255,0.1);
+margin:8px;
+display:inline-block;
+transition:0.3s;
+}
+
+.social:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px red;
+}
+
+/* NOSOTROS */
+.info-section{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:60px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+/* CARRITO */
+#btnCarrito{
+position:fixed;
+right:25px;
+bottom:25px;
+padding:18px;
+border-radius:50%;
+font-size:20px;
+box-shadow:0 0 20px red;
+z-index:1500;
+}
+
+#contador{
+position:absolute;
+top:-5px;
+right:-5px;
+background:red;
+border-radius:50%;
+padding:5px 8px;
+font-size:12px;
+}
+
+#carritoPanel{
+position:fixed;
+right:-350px;
+top:0;
+width:350px;
+height:100%;
+background:#001f3f;
+padding:60px 25px;
+transition:0.5s;
+z-index:3000;
+}
+
+#carritoPanel.active{
+right:0;
+}
+
+.cerrarCarrito{
+position:absolute;
+top:20px;
+right:20px;
+background:red;
+border:none;
+color:white;
+font-size:18px;
+padding:6px 12px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.itemCarrito{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
+padding:10px;
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+align-items:center;
+}
+
+.itemCarrito button{
+background:red;
+border:none;
+color:white;
+padding:5px 10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+footer{
+padding:10px 0;
+background:linear-gradient(90deg,#b30000,#001f3f);
+text-align:center;
+font-size:14px;
+letter-spacing:2px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#servicios">Servicios</a>
+<a href="#productos">Productos</a>
+<a href="#redes">Redes</a>
+<a href="#nosotros">Nosotros</a>
+</nav>
+
+<section id="inicio" class="inicio">
+<div id="particles-js"></div>
+<h2>FLAME BARBER 🔥</h2>
+<p>Donde el estilo prende fuego</p>
+<button onclick="location.href='#servicios'">Ver Servicios</button>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+<h2>✂ Servicios</h2>
+<div class="container">
+
+<div class="card">
+<img src="img/corte.jfif">
+<div class="card-content">
+<h3>Corte Clásico</h3>
+<p class="descripcion">Corte tradicional profesional adaptado a tu estilo.</p>
+<p>$150 MXN</p>
+<button onclick="agregar('Corte Clásico',150)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/barba.jfif">
+<div class="card-content">
+<h3>Arreglo de Barba</h3>
+<p class="descripcion">Perfilado y cuidado de barba para un look limpio.</p>
+<p>$100 MXN</p>
+<button onclick="agregar('Arreglo de Barba',100)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/exclusivo.jfif">
+<div class="card-content">
+<h3>Servicio Premium</h3>
+<p class="descripcion">Corte, barba y tratamiento completo con estilo premium.</p>
+<p>$250 MXN</p>
+<button onclick="agregar('Servicio Premium',250)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/facial.jfif">
+<div class="card-content">
+<h3>Tratamiento Facial</h3>
+<p class="descripcion">Limpieza facial profunda que hidrata y rejuvenece la piel.</p>
+<p>$180 MXN</p>
+<button onclick="agregar('Tratamiento Facial',180)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/infantil.jfif">
+<div class="card-content">
+<h3>Corte Infantil</h3>
+<p class="descripcion">Corte especial para niños con estilo y cuidado profesional.</p>
+<p>$120 MXN</p>
+<button onclick="agregar('Corte Infantil',120)">Agregar</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- PRODUCTOS -->
+<section id="productos">
+<h2>🧴 Productos</h2>
+<div class="container">
+
+<div class="card">
+<img src="img/pomada.jfif">
+<div class="card-content">
+<h3>Pomada</h3>
+<p class="descripcion">Ideal para peinados definidos con brillo natural.</p>
+<p>$150 MXN</p>
+<button onclick="agregar('Pomada',150)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/aceite.jfif">
+<div class="card-content">
+<h3>Aceite para Barba</h3>
+<p class="descripcion">Hidrata y suaviza la barba.</p>
+<p>$180 MXN</p>
+<button onclick="agregar('Aceite para Barba',180)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/gel.jfif">
+<div class="card-content">
+<h3>Gel Moldeable</h3>
+<p class="descripcion">Fijación flexible para tu peinado.</p>
+<p>$120 MXN</p>
+<button onclick="agregar('Gel Moldeable',120)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/polvo.jfif">
+<div class="card-content">
+<h3>Polvo Texturizador</h3>
+<p class="descripcion">Da volumen y textura al cabello.</p>
+<p>$200 MXN</p>
+<button onclick="agregar('Polvo Texturizador',200)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/locion.jfif">
+<div class="card-content">
+<h3>Loción Facial</h3>
+<p class="descripcion">Refresca e hidrata la piel.</p>
+<p>$140 MXN</p>
+<button onclick="agregar('Loción Facial',140)">Agregar</button>
+</div>
+</div>
+
+<div class="card">
+<img src="img/laca.jfif">
+<div class="card-content">
+<h3>Laca Fijadora</h3>
+<p class="descripcion">Fijación fuerte para tu estilo.</p>
+<p>$160 MXN</p>
+<button onclick="agregar('Laca Fijadora',160)">Agregar</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="nosotros">
+<h2>💈 Sobre Nosotros</h2>
+
+<div class="info-section">
+
+<div>
+<iframe src="https://www.google.com/maps?q=Mexico+City&output=embed"
+width="400"
+height="300"
+style="border-radius:15px;border:none;">
+</iframe>
+</div>
+
+<div class="card">
+<img src="img/barbero.jfif">
+
+<div class="card-content">
+<h3>Barbero Profesional</h3>
+<p class="descripcion">
+Especialista en cortes modernos, degradados y arreglo de barba.
+Más de 5 años brindando estilo, precisión y atención personalizada
+en Flame Barber.
+</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section id="redes" class="redes">
+<h2>📱 Síguenos</h2>
+<a href="https://www.tiktok.com/@laflamajk?_r=1&_d=ee17lk8959bmee&sec_uid=MS4wLjABAAAAbt-hKksTpGo7eekugqh6OfDLsV6rNMPHlcwojAdeb3fgxye_mif0UKzWnD1wx8un&share_author_id=6583012061260988422&sharer_language=es&source=h5_m&u_code=d1914a8fm47g0e&timestamp=1772782066&user_id=6583012061260988422&sec_user_id=MS4wLjABAAAAbt-hKksTpGo7eekugqh6OfDLsV6rNMPHlcwojAdeb3fgxye_mif0UKzWnD1wx8un&item_author_type=1&utm_source=whatsapp&utm_campaign=client_share&utm_medium=android&share_iid=7611148656448096018&share_link_id=675666a0-849d-475b-9cdb-e48e15ac2b12&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social">TikTok</a>
+<a href="https://www.instagram.com/flame.barber03?igsh=MzcxZDZ6amc2ZGFp" class="social">Instagram</a>
+<a href="https://chat.whatsapp.com/FC5RLr1Z8Z5CRWt4g2PCDO" class="social">WhatsApp</a>
+<a href="https://www.facebook.com/profile.php?id=61583568321465" class="social">Facebook</a>
+</section>
+
+<button id="btnCarrito" onclick="toggleCarrito()">🛒 <span id="contador">0</span></button>
+
+<div id="carritoPanel">
+
+<button class="cerrarCarrito" onclick="toggleCarrito()">✖</button>
+
+<h3>Carrito</h3>
+<div id="lista"></div>
+<h4>Total: $<span id="total">0</span> MXN</h4>
+
+</div>
+
+<footer>
+<p>© 2026 | FLAME BARBER</p>
+</footer>
+
+<script>
+
+particlesJS("particles-js",{particles:{number:{value:60},size:{value:3},move:{speed:1}},interactivity:{events:{onhover:{enable:true,mode:"repulse"}}}});
+
+const cards=document.querySelectorAll(".card");
+
+function showCards(){
+const trigger=window.innerHeight*0.85;
+cards.forEach(card=>{
+if(card.getBoundingClientRect().top<trigger){
+card.classList.add("visible");
+}
+});
+}
+
+window.addEventListener("scroll",showCards);
+window.addEventListener("load",showCards);
+
+let total=0;
+let cantidad=0;
+
+function agregar(producto,precio){
+
+let lista=document.getElementById("lista");
+let div=document.createElement("div");
+
+div.classList.add("itemCarrito");
+
+div.innerHTML=`<span>${producto} - $${precio}</span>
+<button onclick="eliminar(this,${precio})">❌</button>`;
+
+lista.appendChild(div);
+
+total+=precio;
+cantidad++;
+
+document.getElementById("total").textContent=total;
+document.getElementById("contador").textContent=cantidad;
+
+}
+
+function eliminar(boton,precio){
+
+let item = boton.parentElement;
+item.remove();
+
+total -= precio;
+cantidad--;
+
+document.getElementById("total").textContent = total;
+document.getElementById("contador").textContent = cantidad;
+
+}
+
+function toggleCarrito(){
+document.getElementById("carritoPanel").classList.toggle("active");
+}
+
+document.body.onmousemove=function(e){
+document.body.style.background=`radial-gradient(circle at ${e.clientX}px ${e.clientY}px,#1a1a2e,#0f2027)`;
+};
+
+</script>
+
+</body>
+</html>
